@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: theatre-service
+  datasource:
+    url: jdbc:mysql://db:3306/bookingDb?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      generate-ddl: true
+      hibernate:
+        ddl-auto: update
+      show-sql: true
+
+server:
+  port: 2002
+
+logging:
+  level:
+    org.hibernate.SQL: debug
+

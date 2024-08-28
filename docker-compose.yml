@@ -1,0 +1,24 @@
+services:
+
+  theatre-service:
+    build:
+      context: ./theatre-service
+      dockerfile: Dockerfile
+    ports:
+      - "2002:2002"
+    depends_on:
+      - db
+
+  db:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: bookingDb
+    ports:
+      - "3306:3306"
+    volumes:
+      - ticket_booking_db:/var/lib/mysql
+
+volumes:
+  ticket_booking_db:
+
