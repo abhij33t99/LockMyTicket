@@ -1,5 +1,12 @@
 services:
 
+  discovery-service:
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
+
   auth-service:
     build:
       context: ./auth-service
