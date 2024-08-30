@@ -1,5 +1,14 @@
 services:
 
+  auth-service:
+    build:
+      context: ./auth-service
+      dockerfile: Dockerfile
+    ports:
+      - "2001:2001"
+    depends_on:
+      - db
+
   theatre-service:
     build:
       context: ./theatre-service

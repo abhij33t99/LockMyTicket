@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: auth-service
+  datasource:
+    url: jdbc:mysql://db:3306/bookingDb?allowPublicKeyRetrieval=true&useSSL=false
+    username: root
+    password: root
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    jpa:
+      generate-ddl: true
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        ddl-auto: update
+      show-sql: true
+
+server:
+  port: 2001
+
+security:
+  jwt:
+    secret-key: e456tfgyuu89y45drtyvhjerdcfgvhjlkotgvjhnkrcfgvjklmwstfgvhjnk
+    expiration-time: 36000000
+    refresh-token-expiration-time: 72000000
