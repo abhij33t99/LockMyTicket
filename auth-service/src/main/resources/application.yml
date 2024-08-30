@@ -21,3 +21,10 @@ security:
     secret-key: e456tfgyuu89y45drtyvhjerdcfgvhjlkotgvjhnkrcfgvjklmwstfgvhjnk
     expiration-time: 36000000
     refresh-token-expiration-time: 72000000
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_URI:http://discovery-service:8761/eureka}
+  instance:
+    prefer-ip-address: true

@@ -14,4 +14,4 @@ build_auth:
 	cd auth-service && docker compose build
 
 build_discovery:
-    cd discovery-service && docker compose build
+	cd discovery-service &&	docker compose build
