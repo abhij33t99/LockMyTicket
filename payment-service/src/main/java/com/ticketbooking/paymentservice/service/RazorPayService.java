@@ -18,9 +18,8 @@ public class RazorPayService {
 
     private RazorpayClient razorpayClient;
 
-    public Order createOrder(long amount, String currency) throws RazorpayException {
+    public String createOrder(long amount, String currency) throws RazorpayException {
         RazorpayClient razorpay = new RazorpayClient(razorpayKeyId, razorpayKeySecret);
-
         JSONObject orderRequest = new JSONObject();
         orderRequest.put("amount",5000);
         orderRequest.put("currency","INR");
@@ -28,8 +27,7 @@ public class RazorPayService {
         JSONObject notes = new JSONObject();
         notes.put("notes_key_1","Tea, Earl Grey, Hot");
         orderRequest.put("notes",notes);
-
-        return razorpay.orders.create(orderRequest);
+        return razorpay.orders.create(orderRequest).toString();
     }
 
 }
