@@ -1,43 +1,35 @@
-create or replace procedure add_new_show(
-	p_movie_id BIGINT,
-    p_screen_id BIGINT,
-    p_date TIMESTAMP 
-) 
-LANGUAGE plpgsql
-AS $$
-DECLARE
-    i INT DEFAULT 1;
-    j INT DEFAULT 1;
-    letter CHAR(1) DEFAULT 'A';
-    v_show_id BIGINT;
-    v_seats INT;
+drop procedure if exists ADD_NEW_SHOW;
+
+DELIMITER //
+CREATE PROCEDURE ADD_NEW_SHOW(
+in p_movie_id bigint,
+in p_screen_id bigint,
+in p_date datetime
+)
 BEGIN
-    -- Insert the new show
-    INSERT INTO showings (movie_id, screen_id, show_time) 
-    VALUES (p_movie_id, p_screen_id, p_date);
+    DECLARE i INT DEFAULT 1;
+    DECLARE j INT DEFAULT 1;
+    DECLARE letter CHAR(1) DEFAULT 'A';
+    declare v_show_id bigint;
+    declare v_seats int;
+    START TRANSACTION;
+    insert into shows (movie_id, screen_id, show_time) values (p_movie_id, p_screen_id, p_date);
 
-    -- Retrieve the ID of the newly inserted show
-    SELECT id INTO v_show_id 
-    FROM showings 
-    WHERE movie_id = p_movie_id AND screen_id = p_screen_id AND show_time = p_date;
+    select id into v_show_id from shows where movie_id = p_movie_id and screen_id = p_screen_id and show_time = p_date;
 
-    -- Retrieve the number of seats from the screen
-    SELECT seats INTO v_seats 
-    FROM screen 
-    WHERE id = p_screen_id;
+    select seats into v_seats from screen where id = p_screen_id;
 
-    -- Loop to create seat entries for the show
-    WHILE i <= v_seats LOOP
+    WHILE i <= v_seats DO
         IF j > 10 THEN
-            j := 1;
-            letter := CHR(ASCII(letter) + 1);
+            SET j := 1;
+            SET letter := CHAR(ASCII(letter) + 1);
         END IF;
 
-        INSERT INTO seats (seat_no, show_id) 
-        VALUES (CONCAT(letter, j), v_show_id);
+        INSERT INTO seats (seat_no, show_id) VALUES (CONCAT(letter, j), v_show_id);
+        SET i := i + 1;
+        SET j := j + 1;
+    END WHILE;
+    COMMIT;
+END //
 
-        i := i + 1;
-        j := j + 1;
-    END LOOP;
-END;
-$$;
+DELIMITER ;
