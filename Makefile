@@ -15,3 +15,6 @@ build_auth:
 
 build_discovery:
 	cd discovery-service &&	docker compose build
+
+build_payment:
+	cd payment-service && docker compose build

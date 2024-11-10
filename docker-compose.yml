@@ -15,6 +15,7 @@ services:
       - "2001:2001"
     depends_on:
       - db
+      - discovery-service
 
   theatre-service:
     build:
@@ -24,6 +25,17 @@ services:
       - "2002:2002"
     depends_on:
       - db
+      - discovery-service
+
+  payment-service:
+    build:
+      context: ./payment-service
+      dockerfile: Dockerfile
+    ports:
+      - "2004:2004"
+    depends_on:
+      - db
+      - discovery-service
 
   db:
     image: mysql:latest
