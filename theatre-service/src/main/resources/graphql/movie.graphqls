@@ -1,0 +1,18 @@
+extend type Query {
+    getRecommendedMovies: [Movie]!
+}
+
+extend type Mutation {
+    addMovie(movie: MovieInput!): Movie!
+}
+
+type Movie {
+    id: ID!
+    name: String!
+    releaseDate: Date
+}
+
+input MovieInput {
+    name: String!
+    releaseDate: Date
+}

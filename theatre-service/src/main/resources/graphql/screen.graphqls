@@ -1,0 +1,16 @@
+extend type Mutation {
+    addScreen(screen: ScreenInput!): Screen!
+}
+
+type Screen {
+    id: ID!
+    name: String!
+    theatre: Theatre!
+    seats: Int!
+}
+
+input ScreenInput {
+    name: String!
+    theatreId: Int!
+    seats: Int!
+}

@@ -3,25 +3,21 @@ package com.ticketbooking.theatreservice.controller;
 import com.ticketbooking.theatreservice.model.Seat;
 import com.ticketbooking.theatreservice.service.SeatService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping("/seats")
 public class SeatController {
 
     private final SeatService seatService;
 
-    @GetMapping
-    public ResponseEntity<List<Seat>> getAllSeatsByShow(@RequestParam long showId) {
-        return new ResponseEntity<>(seatService.getAllSeatsByShow(showId), HttpStatus.OK);
+    @QueryMapping
+    public List<Seat> getAllSeatsByShow(@Argument long showId) {
+        return seatService.getAllSeatsByShow(showId);
     }
 
 }

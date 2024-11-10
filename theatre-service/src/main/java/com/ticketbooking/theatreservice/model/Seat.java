@@ -5,9 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.awt.print.Book;
-
-@Entity
+@Entity(name = "seats")
 @Getter
 @Setter
 @NoArgsConstructor

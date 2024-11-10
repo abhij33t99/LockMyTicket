@@ -1,0 +1,20 @@
+extend type Query {
+    getShowsByTheatre(theatreId: Long!, date: DateTime): [Screen]!
+}
+
+extend type Mutation {
+    addShow(show: ShowInput!): String!
+}
+
+type Show {
+    id: ID!
+    movie: Movie!
+    showTime: DateTime!
+    screen: Screen!
+}
+
+input ShowInput {
+    movieId: Long!
+    showTime: DateTime!
+    screenId: Long!
+}

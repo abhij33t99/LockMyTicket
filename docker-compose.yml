@@ -26,15 +26,15 @@ services:
       - db
 
   db:
-    image: mysql:latest
+    image: postgres
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: bookingDb
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: bookingDb
     ports:
-      - "3306:3306"
+      - "5432:5432"
     volumes:
-      - ticket_booking_db:/var/lib/mysql
+      - ticket_booking_db:/var/lib/postgresql/data
 
 volumes:
   ticket_booking_db:
-

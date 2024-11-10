@@ -6,8 +6,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
@@ -17,11 +18,11 @@ public class BookingService {
     private final BookingRepository bookingRepository;
 
     @Transactional
-    public void bookTickets(BookingDto bookingDto) {
+    public long bookTickets(BookingDto bookingDto) {
         String seats = bookingDto.getSeatIds()
                 .stream()
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
-        bookingRepository.bookTickets(seats, bookingDto.getName(), LocalDateTime.now());
+        return bookingRepository.bookTickets(seats, bookingDto.getName(), Timestamp.from(Instant.now()));
     }
 }
