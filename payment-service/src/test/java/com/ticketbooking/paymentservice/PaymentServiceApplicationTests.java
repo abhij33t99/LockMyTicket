@@ -1,4 +1,4 @@
-package com.ticketbooking.payment_service;
+package com.ticketbooking.paymentservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

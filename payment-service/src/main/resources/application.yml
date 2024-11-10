@@ -28,3 +28,7 @@ eureka:
       defaultZone: ${EUREKA_URI:http://discovery-service:8761/eureka}
   instance:
     prefer-ip-address: true
+
+razorpay:
+  key_id: ${RAZORPAY_KEY_ID}
+  key_secret: ${RAZORPAY_KEY_SECRET}
