@@ -1,28 +1,29 @@
 package com.ticketbooking.theatreservice.controller;
 
+import com.ticketbooking.theatreservice.dto.TheatreInputDto;
 import com.ticketbooking.theatreservice.model.Theatre;
 import com.ticketbooking.theatreservice.service.TheatreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/theatre")
+@Controller
 @RequiredArgsConstructor
 public class TheatreController {
 
     private final TheatreService theatreService;
 
-    @GetMapping
-    public ResponseEntity<List<Theatre>> getTheatresByCity(@RequestParam String city) {
-        return new ResponseEntity<>(theatreService.getTheatresByCity(city), HttpStatus.OK);
+    @QueryMapping
+    public List<Theatre> getTheatresByCity(@Argument String city) {
+        return theatreService.getTheatresByCity(city);
     }
 
-    @PostMapping
-    public ResponseEntity<Theatre> addTheatre(@RequestBody Theatre theatre) {
-        return new ResponseEntity<>(theatreService.addTheatre(theatre), HttpStatus.CREATED);
+    @MutationMapping
+    public Theatre addTheatre(@Argument("theatre") TheatreInputDto theatreInputDto) {
+        return theatreService.addTheatre(theatreInputDto);
     }
 }

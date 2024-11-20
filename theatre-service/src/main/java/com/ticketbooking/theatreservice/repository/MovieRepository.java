@@ -10,6 +10,6 @@ import java.util.List;
 @Repository
 public interface MovieRepository extends JpaRepository<Movie, Long> {
 
-    @Query(value = "select * from movie where release_date >= curdate() - 30 order by release_date desc", nativeQuery = true)
+    @Query(value = "select * from movie where release_date >= current_date - interval '30 days' order by release_date desc", nativeQuery = true)
     List<Movie> getRecommendedMovies();
 }

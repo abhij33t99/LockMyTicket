@@ -1,16 +1,16 @@
 package com.ticketbooking.theatreservice.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
+@Data
+@Builder
+@AllArgsConstructor(staticName = "create")
 @NoArgsConstructor
-@ToString
 public class Theatre {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

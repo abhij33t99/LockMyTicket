@@ -1,0 +1,16 @@
+extend type Query {
+    getCities: [City]!
+}
+
+extend type Mutation {
+    addCities(cities: [CityInput]!): [City]!
+}
+
+type City {
+    id: ID!
+    name: String!
+}
+
+input CityInput {
+    name: String!
+}

@@ -1,0 +1,16 @@
+extend type Query {
+    getAllSeatsByShow(showId: Long!): [Seat]!
+}
+
+type Seat {
+    id: ID!
+    seatNo: String!
+    show: Show!
+    bookingId: Booking!
+}
+
+type Booking {
+    id: Long!
+    name: String!
+    show: Show!
+}

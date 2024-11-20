@@ -1,35 +1,36 @@
-DELIMITER //
+-- PROCEDURE: public.book_tickets(character varying, character varying, timestamp without time zone)
 
-drop procedure book_tickets;
+-- DROP PROCEDURE IF EXISTS public.book_tickets(character varying, character varying, timestamp without time zone);
 
-CREATE PROCEDURE BOOK_TICKETS(
-    IN p_seats VARCHAR(100),
-    IN p_name VARCHAR(50),
-    IN p_showtime DATETIME
-)
+CREATE OR REPLACE PROCEDURE public.book_tickets(
+	IN p_seats character varying,
+	IN p_name character varying,
+	IN p_showtime timestamp without time zone,
+	OUT v_booking_id bigint)
+LANGUAGE 'plpgsql'
+AS $BODY$
 BEGIN
-    DECLARE v_booking_id BIGINT;
+	SET LOCAL lock_timeout = '5s';
 
-    -- Step 1: Lock the seats using FOR UPDATE with dynamic SQL
-    SET @v_query = CONCAT('SELECT id FROM seats WHERE id IN (', p_seats, ') FOR UPDATE');
-    PREPARE stmt FROM @v_query;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt; -- Added DEALLOCATE to free resources
+	EXECUTE FORMAT('SELECT * from seats where id in (%s) for update', p_seats);
+	
+    INSERT INTO booking(name, booking_time) VALUES (p_name, p_showtime);
 
-    -- Step 2: Insert booking information
-    INSERT INTO booking(name, booking_time) VALUES ( p_name, p_showtime);
-
-    -- Step 3: Retrieve the booking ID using correct SELECT INTO syntax
+	-- Retrieve the booking ID
     SELECT id INTO v_booking_id
     FROM booking
     WHERE name = p_name
       AND booking_time = p_showtime;
 
-    -- Step 4: Update the seats with the new booking ID using dynamic SQL
-    SET @v_query = CONCAT('UPDATE seats SET booking_id = ', v_booking_id, ' WHERE id IN (', p_seats, ')');
-    PREPARE stmt FROM @v_query;
-    EXECUTE stmt;
-    DEALLOCATE PREPARE stmt; -- Added DEALLOCATE to free resources
-END //
-
-DELIMITER ;
+    -- Update the seats with the new booking ID
+	BEGIN
+    	EXECUTE FORMAT('UPDATE seats SET booking_id = %s WHERE id IN (%s)', v_booking_id, p_seats);
+	EXCEPTION
+    WHEN OTHERS THEN
+      -- Handle exceptions, including lock timeouts
+      RAISE NOTICE 'Error occurred: %', SQLERRM;
+  END;
+END;
+$BODY$;
+ALTER PROCEDURE public.book_tickets(character varying, character varying, timestamp without time zone)
+    OWNER TO root;

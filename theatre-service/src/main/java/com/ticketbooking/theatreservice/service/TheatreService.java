@@ -1,17 +1,16 @@
 package com.ticketbooking.theatreservice.service;
 
 import com.ticketbooking.theatreservice.constant.Field;
+import com.ticketbooking.theatreservice.dto.TheatreInputDto;
 import com.ticketbooking.theatreservice.exception.NotFoundException;
 import com.ticketbooking.theatreservice.model.City;
 import com.ticketbooking.theatreservice.model.Theatre;
 import com.ticketbooking.theatreservice.repository.CityRepository;
 import com.ticketbooking.theatreservice.repository.TheatreRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -26,10 +25,10 @@ public class TheatreService {
         return theatreRepository.findByCity(city);
     }
 
-    public Theatre addTheatre(Theatre theatre) {
-        City city = cityRepository.findById(theatre.getCity().getId())
-                .orElseThrow(() -> new NotFoundException(Field.CITY, theatre.getCity().getId()));
-        theatre.setCity(city);
+    public Theatre addTheatre(TheatreInputDto theatreInputDto) {
+        City city = cityRepository.findById(theatreInputDto.getCityId())
+                .orElseThrow(() -> new NotFoundException(Field.CITY, theatreInputDto.getCityId()));
+        var theatre = Theatre.builder().city(city).name(theatreInputDto.getName()).build();
         return theatreRepository.save(theatre);
     }
 }

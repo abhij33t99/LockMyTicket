@@ -1,0 +1,8 @@
+extend type Mutation {
+    bookTickets(booking: BookingInput!): Long!
+}
+
+input BookingInput {
+    name: String!
+    seatIds: [Long!]
+}

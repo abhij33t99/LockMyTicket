@@ -13,6 +13,7 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    private String name;
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "show_id")
     private Show show;

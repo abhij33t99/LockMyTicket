@@ -1,30 +1,29 @@
 package com.ticketbooking.theatreservice.controller;
 
-import com.ticketbooking.theatreservice.constant.EndpointConstant;
 import com.ticketbooking.theatreservice.model.City;
 import com.ticketbooking.theatreservice.service.CityService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.graphql.data.method.annotation.Argument;
+import org.springframework.graphql.data.method.annotation.MutationMapping;
+import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
-@RequestMapping(EndpointConstant.CITIES)
 public class CityController {
 
     private final CityService cityService;
 
-    @GetMapping
-    public ResponseEntity<List<City>> getCities() {
-        return new ResponseEntity<>(cityService.getCities(), HttpStatus.OK);
+    @QueryMapping
+    public List<City> getCities() {
+        return cityService.getCities();
     }
 
-    @PostMapping
-    public ResponseEntity<List<City>> addCities(@RequestBody List<City> city) {
-        return new ResponseEntity<>(cityService.addCity(city), HttpStatus.CREATED);
+    @MutationMapping
+    public List<City> addCities(@Argument List<City> cities) {
+        return cityService.addCity(cities);
     }
 
 }
