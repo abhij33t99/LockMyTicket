@@ -1,5 +1,4 @@
 import { useState } from "react";
-import AuthContext from "./auth-context"
 import { UserDetails } from "types/auth";
 
 const AppContextProvider = (children: React.ReactNode) => {
