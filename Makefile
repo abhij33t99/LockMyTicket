@@ -4,7 +4,7 @@ up:
 down:
 	docker compose down
 
-up_build: build_theatre build_auth
+up_build: build_theatre build_auth build_notification
 	docker compose up
 
 build_theatre:
@@ -15,3 +15,6 @@ build_auth:
 
 build_discovery:
 	cd discovery-service &&	docker compose build
+
+build_notification:
+	cd notification-service && docker compose build

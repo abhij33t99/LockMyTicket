@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: notification-service
+  kafka:
+    consumer:
+      auto-offset-reset: earliest
+      bootstrap-servers: kafka:9092
+      group-id: invoice-group
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      properties:
+        spring.json.trusted.packages: com.ticketbooking.notificationservice.kafka
+        spring.json.value.default.type: com.ticketbooking.notificationservice.kafka.Invoice
+        spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
+  datasource:
+    url: jdbc:postgresql://db:5432/bookingDb
+    username: root
+    password: postgres
+  jpa:
+    show-sql: true
+  mail:
+    host: mailhog
+    port: 1025
